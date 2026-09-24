@@ -8,7 +8,7 @@ Production-quality Donut-style leaderboards for **Nightbeam Studio (NAIZO)** —
 ./gradlew build
 ```
 
-Output: `build/libs/DonutLeaderboard-1.0.0.jar` (shaded, single jar).
+Output: `build/libs/DonutLeaderboard-1.0.0.jar` (~100 KB plugin code + bStats; HikariCP, MySQL, and SQLite JDBC load at runtime via `plugin.yml` `libraries:` on Paper/Spigot 1.16.5+).
 
 ## Requirements
 
@@ -71,8 +71,8 @@ See `src/main/resources/config.yml` and `messages.yml` for defaults.
 
 ```bash
 ./gradlew build          # unit + MockBukkit GUI tests
-./gradlew integrationTest # MySQL via Testcontainers (Docker, tag: docker)
-./gradlew smokeTest       # smoke harness (tag: smoke; disabled unless enabled)
+./gradlew integrationTest # MariaDB4j embedded MySQL (+ Testcontainers when Docker available)
+./gradlew smokeServerBoot # real Paper/Purpur/Folia boots (see docs/SMOKE_RESULTS.md)
 ```
 
 ## Smoke / version matrix
@@ -108,7 +108,7 @@ See `src/main/resources/config.yml` and `messages.yml` for defaults.
 | Async cached rankings | Yes |
 | SQLite + MySQL (HikariCP) | Yes |
 | Folia-safe schedulers | Yes |
-| Single shaded jar | Yes |
+| Single deployable jar (DB libs via Paper `libraries:`) | Yes |
 
 <p align="center">
   <a href="https://builtbybit.com/creators/nightbeamstudio.617578/">

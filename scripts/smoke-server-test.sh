@@ -12,7 +12,10 @@ UA="DonutLeaderboard-smoke/1.0 (Nightbeam Studio)"
 declare -A RESULT=()
 declare -A LOG_EXCERPT=()
 
-log() { echo "[smoke] $*" | tee -a "$REPORT"; }
+log() {
+  echo "[smoke] $*" >> "$REPORT"
+  echo "[smoke] $*" >&2
+}
 
 mkdir -p "$SMOKE_ROOT"
 : > "$REPORT"
@@ -136,12 +139,17 @@ run_server() {
   local id="$1"
   local java_bin="$2"
   local server_jar="$3"
+  local extra_config="${4:-}"
   local work="$SMOKE_ROOT/$id"
   rm -rf "$work"
   local port
   port="$(find_free_port)"
   mkdir -p "$work/plugins"
   cp "$JAR" "$work/plugins/"
+  if [[ -n "$extra_config" && -f "$extra_config" ]]; then
+    mkdir -p "$work/plugins/DonutLeaderboard"
+    cp "$extra_config" "$work/plugins/DonutLeaderboard/config.yml"
+  fi
   cp "$server_jar" "$work/server.jar"
   echo "eula=true" > "$work/eula.txt"
   cat > "$work/server.properties" <<EOF
@@ -233,16 +241,93 @@ download_jar "$PAPER263_URL" "$SMOKE_ROOT/paper-26.3.jar"
 download_jar "$FOLIA262_URL" "$SMOKE_ROOT/folia-26.2.jar"
 download_jar "$PURPUR263_URL" "$SMOKE_ROOT/purpur-26.3.jar"
 
+SQLITE_CFG="$SMOKE_ROOT/config-sqlite.yml"
+cp "$ROOT/src/main/resources/config.yml" "$SQLITE_CFG"
+
 run_server "paper-1.20.1" "$JAVA17" "$SMOKE_ROOT/paper-1.20.1.jar"
 run_server "paper-1.21.11" "$JAVA21" "$SMOKE_ROOT/paper-1.21.11.jar"
 run_server "paper-26.3" "$JAVA25" "$SMOKE_ROOT/paper-26.3.jar"
 run_server "purpur-26.3" "$JAVA25" "$SMOKE_ROOT/purpur-26.3.jar"
 run_server "folia-26.2" "$JAVA25" "$SMOKE_ROOT/folia-26.2.jar"
+run_server "paper-26.3-sqlite" "$JAVA25" "$SMOKE_ROOT/paper-26.3.jar" "$SQLITE_CFG"
+
+MYSQL_CFG="$SMOKE_ROOT/config-mysql.yml"
+MARIADB_PORT_FILE="$SMOKE_ROOT/mariadb.port"
+rm -f "$MARIADB_PORT_FILE"
+log "Starting embedded MariaDB for MySQL smoke..."
+( cd "$ROOT" && ./gradlew -q embeddedMariaDb --args="$MARIADB_PORT_FILE" ) >>"$REPORT" 2>&1 &
+MARIADB_PID=$!
+mysql_ok=0
+for _ in $(seq 1 120); do
+  if [[ -s "$MARIADB_PORT_FILE" ]]; then
+    mysql_ok=1
+    break
+  fi
+  if ! kill -0 "$MARIADB_PID" 2>/dev/null; then
+    break
+  fi
+  sleep 1
+done
+if [[ "$mysql_ok" -eq 1 ]]; then
+  MYSQL_PORT="$(tr -d '[:space:]' < "$MARIADB_PORT_FILE")"
+  cat > "$MYSQL_CFG" <<EOF
+config-version: 2
+storage:
+  type: MYSQL
+  sqlite:
+    file: leaderboard.db
+  mysql:
+    host: 127.0.0.1
+    port: $MYSQL_PORT
+    database: donut_leaderboard
+    username: root
+    password: ""
+    parameters: useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+cache:
+  refresh-seconds: 120
+periods:
+  timezone: UTC
+messages:
+  prefix: "<gold><bold>Leaderboard</bold> <dark_gray>» "
+bstats:
+  enabled: false
+gui:
+  rows: 6
+  menu-title: "<gold><bold>Leaderboards"
+  board-title: "<gold>%category% <gray>(%period%)"
+  entries-per-page: 21
+  show-viewer-rank-slot: 48
+  period-toggle-slot: 47
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    name: " "
+  entry-slots: [10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34]
+categories:
+  builtin:
+    balance: { enabled: true, slot: 10 }
+    kills: { enabled: true, slot: 11 }
+    deaths: { enabled: true, slot: 12 }
+    playtime: { enabled: true, slot: 13 }
+    blocks_mined: { enabled: true, slot: 14 }
+    mob_kills: { enabled: true, slot: 15 }
+    animals_bred: { enabled: true, slot: 16 }
+    fish_caught: { enabled: true, slot: 19 }
+    damage_dealt: { enabled: true, slot: 20 }
+  custom:
+    example_tokens: { enabled: false, name: Tokens, placeholder: "%someplugin_tokens%", icon: EMERALD, slot: 22 }
+EOF
+  run_server "paper-26.3-mysql" "$JAVA25" "$SMOKE_ROOT/paper-26.3.jar" "$MYSQL_CFG"
+else
+  RESULT["paper-26.3-mysql"]="FAIL (embedded MariaDB)"
+  LOG_EXCERPT["paper-26.3-mysql"]="Could not start MariaDB4j; see gradle log in report"
+fi
+kill "$MARIADB_PID" 2>/dev/null || true
+wait "$MARIADB_PID" 2>/dev/null || true
 
 log ""
 log "=== Smoke matrix results ==="
 fail=0
-for id in paper-1.20.1 paper-1.21.11 paper-26.3 purpur-26.3 folia-26.2; do
+for id in paper-1.20.1 paper-1.21.11 paper-26.3 purpur-26.3 folia-26.2 paper-26.3-sqlite paper-26.3-mysql; do
   log "| $id | ${RESULT[$id]:-UNKNOWN} |"
   while IFS= read -r line; do
     log "  log> $line"

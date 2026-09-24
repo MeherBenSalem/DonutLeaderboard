@@ -34,12 +34,17 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("org.jetbrains:annotations:24.1.0")
 
-    implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("com.mysql:mysql-connector-j:8.3.0")
-    implementation("org.xerial:sqlite-jdbc:3.46.1.0")
+    // Loaded at runtime via plugin.yml `libraries:` on Paper/Spigot 1.16.5+ (not bundled by the server).
+    compileOnly("com.zaxxer:HikariCP:5.1.0")
+    compileOnly("com.mysql:mysql-connector-j:8.3.0")
+    compileOnly("org.xerial:sqlite-jdbc:3.46.1.0")
+
     implementation("org.bstats:bstats-bukkit:3.1.0")
 
     testImplementation("io.papermc.paper:paper-api:$paperApi")
+    testImplementation("com.zaxxer:HikariCP:5.1.0")
+    testImplementation("com.mysql:mysql-connector-j:8.3.0")
+    testImplementation("org.xerial:sqlite-jdbc:3.46.1.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testImplementation("org.mockito:mockito-core:5.14.2")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.93.2")
@@ -58,10 +63,9 @@ tasks.processResources {
 
 tasks.shadowJar {
     archiveFileName.set("DonutLeaderboard-${project.version}.jar")
-    relocate("com.zaxxer.hikari", "io.nightbeam.donutleaderboard.lib.hikari")
-    relocate("com.mysql", "io.nightbeam.donutleaderboard.lib.mysql")
     relocate("org.bstats", "io.nightbeam.donutleaderboard.lib.bstats")
     mergeServiceFiles()
+    minimize()
 }
 
 tasks.build {
@@ -86,6 +90,13 @@ tasks.register<Exec>("smokeServerBoot") {
     dependsOn(tasks.shadowJar)
     environment("DONUT_LEADERBOARD_SMOKE_ENABLED", "true")
     commandLine("bash", "$projectDir/scripts/smoke-server-test.sh")
+}
+
+tasks.register<JavaExec>("embeddedMariaDb") {
+    description = "Embedded MariaDB for smoke tests (writes port file)"
+    group = "verification"
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("io.nightbeam.donutleaderboard.smoke.EmbeddedMariaDbLauncher")
 }
 
 tasks.register<Test>("integrationTest") {
