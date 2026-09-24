@@ -13,7 +13,6 @@ from pathlib import Path
 
 ROOT = Path("/workspace")
 DOCS = ROOT / "docs" / "images"
-ART = Path("/opt/cursor/artifacts/screenshots")
 LOG = ROOT / "build" / "screenshot-attempt.log"
 SERVER = ROOT / "build" / "screenshot-server"
 JAR = ROOT / "build" / "libs" / "DonutLeaderboard-1.0.0.jar"
@@ -248,16 +247,10 @@ def run_capture(port: int) -> None:
     mc.terminate()
 
 
-def sync_artifacts() -> None:
-    for name in list(DOCS.glob("*.png")):
-        subprocess.run(["cp", str(name), str(ART / name.name)], check=False)
-
-
 def main() -> int:
     missing = missing_names()
     if not missing:
-        log("All required PNGs present; syncing artifacts")
-        sync_artifacts()
+        log("All required PNGs present")
         return 0
     log(f"Missing PNGs: {missing}")
     try:
@@ -269,7 +262,6 @@ def main() -> int:
     except Exception as ex:
         log(f"Capture failed: {ex}")
         return 1
-    sync_artifacts()
     missing = missing_names()
     if missing:
         log(f"Still missing: {missing}")

@@ -79,7 +79,7 @@ See `src/main/resources/config.yml` and `messages.yml` for defaults.
 
 ## Smoke / version matrix
 
-**Verified on this VM (2026-09-24):** Paper **1.20.1**, **1.21.11**, **26.3**; Purpur **26.3**; Folia **26.2** — all **PASS**. See [docs/SMOKE_RESULTS.md](docs/SMOKE_RESULTS.md) and `build/smoke-report.txt`.
+**Smoke matrix (2026-09-24):** Paper **1.20.1**, **1.21.11**, **26.3**; Purpur **26.3**; Folia **26.2** — all **PASS**. See [docs/SMOKE_RESULTS.md](docs/SMOKE_RESULTS.md) and `build/smoke-report.txt`.
 
 ```bash
 ./gradlew smokeServerBoot   # downloads jars, boots matrix, writes build/smoke-report.txt

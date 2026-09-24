@@ -15,7 +15,6 @@ from pathlib import Path
 
 ROOT = Path("/workspace")
 DOCS = ROOT / "docs" / "images"
-ART = Path("/opt/cursor/artifacts/screenshots")
 LOG = ROOT / "build/screenshot-attempt.log"
 SERVER = ROOT / "build" / "screenshot-server"
 JAR = ROOT / "build/libs/DonutLeaderboard-1.0.0.jar"
@@ -443,12 +442,6 @@ def verify_outputs() -> None:
         log(f"verify {name} sha256={h}")
 
 
-def sync_artifacts() -> None:
-    ART.mkdir(parents=True, exist_ok=True)
-    for name in OUTPUTS:
-        subprocess.run(["cp", str(DOCS / name), str(ART / name)], check=True)
-
-
 def main() -> int:
     patch_options()
     ensure_paper_jar()
@@ -456,7 +449,6 @@ def main() -> int:
         port = ensure_server()
         run_capture(port)
         verify_outputs()
-        sync_artifacts()
     except Exception as ex:
         log(f"FAIL: {ex}")
         return 1

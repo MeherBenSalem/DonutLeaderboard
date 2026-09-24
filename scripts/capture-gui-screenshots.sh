@@ -4,11 +4,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 export PATH="/home/ubuntu/.local/bin:$PATH"
 ART="$ROOT/docs/images"
-ARTIFACTS="/opt/cursor/artifacts/screenshots"
+DOCS="$ROOT/docs/images"
 LOG="$ROOT/build/screenshot-attempt.log"
 SERVER_DIR="$ROOT/build/screenshot-server"
 JAR="$ROOT/build/libs/DonutLeaderboard-1.0.0.jar"
-mkdir -p "$ART" "$ARTIFACTS" "$SERVER_DIR"
+mkdir -p "$DOCS" "$SERVER_DIR"
 
 log() { echo "[screenshots] $(date -Iseconds) $*" | tee -a "$LOG"; }
 
@@ -135,7 +135,6 @@ scrot -u "$ART/category-menu-raw.png" || scrot "$ART/category-menu-raw.png"
 convert "$ART/category-menu-raw.png" -resize 400x "$ART/category-menu.png"
 
 log "Captured category-menu.png (verify visually — real client frame)"
-cp "$ART"/category-menu.png "$ARTIFACTS/" 2>/dev/null || true
 
 kill $MC_PID 2>/dev/null || true
 kill $XVFB_PID 2>/dev/null || true
