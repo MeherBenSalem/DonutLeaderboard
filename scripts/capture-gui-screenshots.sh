@@ -116,12 +116,10 @@ for _ in $(seq 1 120); do
   sleep 2
 done
 
-if ! xdotool search --name "Minecraft" >/dev/null 2>&1; then
-  log "FAIL: Minecraft client window never appeared (portablemc/Xvfb/GL). See portablemc output above."
-  kill $MC_PID 2>/dev/null || true
-  kill $XVFB_PID 2>/dev/null || true
-  exit 2
-fi
+log "FAIL: Minecraft client window never appeared within wait (portablemc/Xvfb/GL). Owner capture required."
+kill $MC_PID 2>/dev/null || true
+kill $XVFB_PID 2>/dev/null || true
+exit 2
 
 WID="$(xdotool search --name "Minecraft" | head -1)"
 sleep 15
