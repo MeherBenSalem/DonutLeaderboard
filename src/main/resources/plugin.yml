@@ -1,0 +1,34 @@
+name: DonutLeaderboard
+version: ${version}
+main: io.nightbeam.donutleaderboard.DonutLeaderboardPlugin
+api-version: '1.20'
+folia-supported: true
+authors:
+  - NAIZO
+  - Nightbeam Studio
+website: https://nightbeam.dev
+description: Donut-style paginated leaderboards with Vault, statistics, PlaceholderAPI, and Folia support.
+softdepend:
+  - Vault
+  - PlaceholderAPI
+commands:
+  leaderboard:
+    description: Opens leaderboards and admin tools.
+    usage: /leaderboard [open|rank|reload|reset|refresh]
+    aliases: [lb, top, leaderboards]
+permissions:
+  donutleaderboard.use:
+    description: Open leaderboard menus.
+    default: true
+  donutleaderboard.rank:
+    description: View a player's rank.
+    default: true
+  donutleaderboard.admin.reload:
+    description: Reload configuration.
+    default: op
+  donutleaderboard.admin.reset:
+    description: Reset a category period.
+    default: op
+  donutleaderboard.admin.refresh:
+    description: Force refresh cached rankings.
+    default: op

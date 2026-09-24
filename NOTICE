@@ -1,0 +1,8 @@
+DonutLeaderboard
+Copyright 2026 Nightbeam Studio (NAIZO)
+
+This product includes software developed by third parties:
+- HikariCP (Apache License 2.0)
+- SQLite JDBC (Apache License 2.0)
+- MySQL Connector/J (GPL v2 with FOSS Exception)
+- bStats (LGPL v3)

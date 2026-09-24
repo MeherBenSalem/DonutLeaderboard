@@ -1,0 +1,73 @@
+config-version: 2
+
+storage:
+  type: SQLITE
+  sqlite:
+    file: leaderboard.db
+  mysql:
+    host: localhost
+    port: 3306
+    database: donut_leaderboard
+    username: root
+    password: password
+    parameters: useSSL=false&characterEncoding=utf8
+
+cache:
+  refresh-seconds: 120
+
+periods:
+  timezone: UTC
+
+messages:
+  prefix: "<gold><bold>Leaderboard</bold> <dark_gray>» "
+
+bstats:
+  enabled: false
+
+gui:
+  rows: 6
+  menu-title: "<gold><bold>Leaderboards"
+  board-title: "<gold>%category% <gray>(%period%)"
+  entries-per-page: 21
+  show-viewer-rank-slot: 48
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    name: " "
+  entry-slots: [10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34]
+
+categories:
+  builtin:
+    balance:
+      enabled: true
+      slot: 10
+    kills:
+      enabled: true
+      slot: 11
+    deaths:
+      enabled: true
+      slot: 12
+    playtime:
+      enabled: true
+      slot: 13
+    blocks_mined:
+      enabled: true
+      slot: 14
+    mob_kills:
+      enabled: true
+      slot: 15
+    animals_bred:
+      enabled: true
+      slot: 16
+    fish_caught:
+      enabled: true
+      slot: 19
+    damage_dealt:
+      enabled: true
+      slot: 20
+  custom:
+    example_tokens:
+      enabled: false
+      name: Tokens
+      placeholder: "%someplugin_tokens%"
+      icon: EMERALD
+      slot: 22

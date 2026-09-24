@@ -1,0 +1,29 @@
+prefix: "<gold><bold>Leaderboard</bold> <dark_gray>» "
+
+errors:
+  player-only: "<red>Only players can open menus."
+  no-permission: "<red>You do not have permission."
+  unknown-subcommand: "<red>Unknown subcommand."
+  unknown-category: "<red>Unknown category: <white>%category%"
+  player-not-found: "<red>Player not found: <white>%player%"
+  usage-rank: "<yellow>Usage: /lb rank <player> <category> [period]"
+  usage-reset: "<yellow>Usage: /lb reset <category> <period>"
+  reset-failed: "<red>Reset failed: <white>%error%"
+
+info:
+  reloaded: "<green>Configuration reloaded."
+  refresh-started: "<green>Leaderboard refresh queued."
+  reset: "<green>Reset <white>%category% <gray>(%period%)"
+  rank-unranked: "<gray>%player% is not ranked in %category%."
+  rank: "<yellow>%player% is <gold>#%rank% <yellow>in <white>%category% <gray>(%value%)"
+
+gui:
+  category-lore:
+    - "<gray>Click to view"
+    - "<white>%category%"
+  period-hint:
+    - "<gray>Default period: All-Time"
+    - "<gray>Use /lb open <category> <period>"
+  entry-lore:
+    - "<gray>Rank: <gold>#%rank%"
+    - "<gray>Value: <white>%value%"
