@@ -46,6 +46,8 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.20.4")
     testImplementation("org.testcontainers:junit-jupiter:1.20.4")
     testImplementation("org.testcontainers:mysql:1.20.4")
+    testImplementation("ch.vorburger.mariaDB4j:mariaDB4j:3.2.0")
+    testImplementation("ch.vorburger.mariaDB4j:mariaDB4j-db-linux64:11.4.5")
 }
 
 tasks.processResources {
@@ -76,6 +78,14 @@ tasks.test {
     javaLauncher.set(javaToolchains.launcherFor {
         languageVersion.set(JavaLanguageVersion.of(21))
     })
+}
+
+tasks.register<Exec>("smokeServerBoot") {
+    description = "Download and boot Paper/Purpur/Folia matrix with DonutLeaderboard"
+    group = "verification"
+    dependsOn(tasks.shadowJar)
+    environment("DONUT_LEADERBOARD_SMOKE_ENABLED", "true")
+    commandLine("bash", "$projectDir/scripts/smoke-server-test.sh")
 }
 
 tasks.register<Test>("integrationTest") {

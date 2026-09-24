@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public final class GuiManager {
@@ -54,10 +55,23 @@ public final class GuiManager {
             return;
         }
         event.setCancelled(true);
+        if (event.getClick() == ClickType.NUMBER_KEY || event.getClick() == ClickType.SWAP_OFFHAND) {
+            return;
+        }
         if (event.getClickedInventory() == null || event.getRawSlot() >= event.getView().getTopInventory().getSize()) {
             return;
         }
         gui.handleClick(player, event);
+    }
+
+    public void closeAllForReload() {
+        for (org.bukkit.entity.Player player : plugin.getServer().getOnlinePlayers()) {
+            if (openGuis.containsKey(player.getUniqueId())) {
+                player.closeInventory();
+            }
+        }
+        openGuis.clear();
+        navigating.clear();
     }
 
     public void handleClose(Player player) {

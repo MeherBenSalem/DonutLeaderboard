@@ -119,6 +119,10 @@ public final class SchedulerAdapter {
                 }
             };
         } catch (ReflectiveOperationException ex) {
+            if (folia) {
+                plugin.getLogger().warning("Folia repeating scheduler unavailable: " + ex.getMessage());
+                return () -> {};
+            }
             BukkitTask bukkitTask = Bukkit.getScheduler().runTaskTimer(plugin, runnable, initialDelayTicks, periodTicks);
             return bukkitTask::cancel;
         }
@@ -126,8 +130,18 @@ public final class SchedulerAdapter {
 
     private static boolean detectFolia() {
         try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            return true;
+        } catch (ClassNotFoundException ignored) {
+            // not Folia API on classpath
+        }
+        try {
             String serverClass = Bukkit.getServer().getClass().getName().toLowerCase(Locale.ROOT);
-            return serverClass.contains("folia");
+            if (serverClass.contains("folia")) {
+                return true;
+            }
+            String version = Bukkit.getVersion().toLowerCase(Locale.ROOT);
+            return version.contains("folia");
         } catch (Throwable ex) {
             return false;
         }

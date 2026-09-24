@@ -30,6 +30,7 @@ gui:
   board-title: "<gold>%category% <gray>(%period%)"
   entries-per-page: 21
   show-viewer-rank-slot: 48
+  period-toggle-slot: 47
   filler:
     material: GRAY_STAINED_GLASS_PANE
     name: " "

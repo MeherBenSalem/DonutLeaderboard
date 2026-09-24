@@ -24,6 +24,12 @@ gui:
   period-hint:
     - "<gray>Default period: All-Time"
     - "<gray>Use /lb open <category> <period>"
+  period-toggle-lore:
+    - "<gray>Current: <white>%period%"
+    - "<yellow>Click to cycle period"
+  viewer-unranked:
+    - "<gray>You are not ranked yet"
+    - "<dark_gray>%player%"
   entry-lore:
     - "<gray>Rank: <gold>#%rank%"
     - "<gray>Value: <white>%value%"

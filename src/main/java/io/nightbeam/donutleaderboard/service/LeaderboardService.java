@@ -172,4 +172,9 @@ public final class LeaderboardService {
     public Map<String, LeaderboardSnapshot> cacheView() {
         return Map.copyOf(cache);
     }
+
+    /** Injects a cached snapshot (used by tests). */
+    public void putSnapshotForTest(CategoryKey key, LeaderboardSnapshot snapshot) {
+        cache.put(key.cacheKey(), snapshot);
+    }
 }

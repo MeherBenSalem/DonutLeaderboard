@@ -24,6 +24,7 @@ public final class LeaderboardGui extends BaseGui {
     public static final int PREVIOUS_SLOT = 45;
     public static final int NEXT_SLOT = 53;
     public static final int BACK_SLOT = 49;
+    public static final int PERIOD_SLOT = 47;
 
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat("#,##0.##");
 
@@ -78,9 +79,28 @@ public final class LeaderboardGui extends BaseGui {
         inventory.setItem(NEXT_SLOT, ItemBuilder.of(Material.ARROW, plugin.messages().component("<yellow>Next"), List.of()));
         inventory.setItem(BACK_SLOT, ItemBuilder.of(Material.BARRIER, plugin.messages().component("<red>Back"), List.of()));
 
+        int periodSlot = plugin.getConfig().getInt("gui.period-toggle-slot", PERIOD_SLOT);
+        if (periodSlot >= 0 && periodSlot < inventory.getSize()) {
+            inventory.setItem(
+                    periodSlot,
+                    ItemBuilder.of(
+                            Material.CLOCK,
+                            plugin.messages().component("<aqua>" + PeriodToggle.displayLabel(period)),
+                            plugin.messages().lore("gui.period-toggle-lore", Map.of("period", PeriodToggle.displayLabel(period)))));
+        }
+
         int viewerSlot = plugin.getConfig().getInt("gui.show-viewer-rank-slot", 48);
-        if (page.viewerEntry() != null && viewerSlot >= 0 && viewerSlot < inventory.getSize()) {
-            inventory.setItem(viewerSlot, createEntryItem(plugin, page.viewerEntry()));
+        if (viewerSlot >= 0 && viewerSlot < inventory.getSize()) {
+            if (page.viewerEntry() != null) {
+                inventory.setItem(viewerSlot, createEntryItem(plugin, page.viewerEntry()));
+            } else {
+                inventory.setItem(
+                        viewerSlot,
+                        ItemBuilder.playerHead(
+                                player.getName(),
+                                plugin.messages().component("<gray>Your rank"),
+                                plugin.messages().lore("gui.viewer-unranked", Map.of("player", player.getName()))));
+            }
         }
 
         this.pageIndex = page.pageIndex();
@@ -106,6 +126,12 @@ public final class LeaderboardGui extends BaseGui {
         }
         if (slot == BACK_SLOT) {
             guiManager.openCategoryMenu(player);
+            return;
+        }
+        int periodSlot = guiManager.plugin().getConfig().getInt("gui.period-toggle-slot", PERIOD_SLOT);
+        if (slot == periodSlot) {
+            PeriodType next = PeriodToggle.next(period);
+            guiManager.openLeaderboard(player, category, next, 0);
         }
     }
 
@@ -117,6 +143,14 @@ public final class LeaderboardGui extends BaseGui {
             return PaginationHelper.pageAfterNavigation(currentPage, totalPages, PaginationHelper.NavigationAction.NEXT);
         }
         return currentPage;
+    }
+
+    public PeriodType period() {
+        return period;
+    }
+
+    public int pageIndex() {
+        return pageIndex;
     }
 
     private Component rankPrefix(int rank) {

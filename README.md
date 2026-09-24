@@ -75,9 +75,13 @@ See `src/main/resources/config.yml` and `messages.yml` for defaults.
 ./gradlew smokeTest       # smoke harness (tag: smoke; disabled unless enabled)
 ```
 
-## Smoke / version matrix (CI)
+## Smoke / version matrix
 
-The workflow runs `scripts/smoke-server-test.sh` on `main` pushes. Full automated Paper/Folia boot requires downloaded jars and Java 25 for 26.3; the script documents the matrix (`1.20.1`, `1.21.1`, `26.3`, Folia `26.2`) and exits unless `DONUT_LEADERBOARD_SMOKE_ENABLED=true`.
+**Verified on this VM (2026-09-24):** Paper **1.20.1**, **1.21.11**, **26.3**; Purpur **26.3**; Folia **26.2** — all **PASS**. See [docs/SMOKE_RESULTS.md](docs/SMOKE_RESULTS.md) and `build/smoke-report.txt`.
+
+```bash
+./gradlew smokeServerBoot   # downloads jars, boots matrix, writes build/smoke-report.txt
+```
 
 ---
 

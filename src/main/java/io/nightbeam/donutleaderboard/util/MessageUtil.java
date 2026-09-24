@@ -27,8 +27,11 @@ public final class MessageUtil {
     }
 
     public void reload() {
-        plugin.saveResource("messages.yml", false);
-        messages = YamlConfiguration.loadConfiguration(plugin.getDataFolder().toPath().resolve("messages.yml").toFile());
+        java.nio.file.Path path = plugin.getDataFolder().toPath().resolve("messages.yml");
+        if (!java.nio.file.Files.exists(path)) {
+            plugin.saveResource("messages.yml", false);
+        }
+        messages = YamlConfiguration.loadConfiguration(path.toFile());
         prefix = messages.getString("prefix", plugin.getConfig().getString("messages.prefix", "<gold><bold>Leaderboard</bold> <dark_gray>» "));
     }
 

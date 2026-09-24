@@ -112,6 +112,7 @@ public class DonutLeaderboardPlugin extends JavaPlugin {
     }
 
     public void reloadPlugin() {
+        guiManager.closeAllForReload();
         reloadConfig();
         ConfigMigrator.migrate(getConfig());
         saveConfig();
