@@ -1,14 +1,14 @@
 # DonutLeaderboard — in-game screenshots
 
-All PNGs here are **real** captures from Minecraft **1.20.1** (portablemc) on Paper with DonutLeaderboard, via `scripts/recapture-screenshots.py` (Xvfb + scrot).
+Real captures from Minecraft **1.20.1** (portablemc) on Paper with DonutLeaderboard. Primary automation: `scripts/capture-store-screenshots.py` (Xvfb + ImageMagick).
 
 | File | Description |
 | --- | --- |
 | `category-menu.png` | Category menu (`/lb`) |
-| `leaderboard-populated.png` | Weekly **Kills** board with ranked player heads |
-| `leaderboard-weekly.png` | Weekly period board (same session as populated) |
-| `leaderboard-page2.png` | Weekly **Kills** pagination page 2 |
+| `leaderboard-top.png` | Weekly **Kills** page 1 (top ranks + viewer slot) |
+| `leaderboard-weekly.png` | Period row / weekly board (store listing) |
+| `leaderboard-page2.png` | Weekly **Kills** page 2 |
+
+Listing-quality recapture is in progress; see `scripts/capture-store-screenshots.py`.
 
 Copies for release artifacts: `/opt/cursor/artifacts/screenshots/`.
-
-**Note:** An earlier [Capture real Minecraft GUI screenshots on VM](bc-688d6dbb-f052-5251-883a-fa4718a7d34f) run reported files that were **not** on disk afterward; this folder was repopulated by the recapture script on 2026-09-24.

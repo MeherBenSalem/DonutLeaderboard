@@ -1,5 +1,7 @@
 # DonutLeaderboard
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
 Production-quality Donut-style leaderboards for **Nightbeam Studio (NAIZO)** — paginated chest GUIs, async cached rankings, Vault + vanilla stats + PlaceholderAPI categories, and Folia-safe scheduling.
 
 ## Build
