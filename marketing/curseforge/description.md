@@ -1,8 +1,6 @@
 ![About](https://raw.githubusercontent.com/Fuzss/modresources/main/pages/commons/headers/about.png)
 
-**[Discord](https://discord.gg/TJc3CxR4jK) · [Premium plugins](https://nightbeam.dev/store) · [Support NightBeam](https://nightbeam.dev/support) · [NightBeam Pro](https://nightbeam.dev/memberships) · [All projects](https://nightbeam.dev/projects)**
-
-> **Running a server?** NightBeam's premium plugins are on [BuiltByBit](https://nightbeam.dev/store): NightWatch Pro anti-cheat, Elo ranked leaderboards and more.
+**[Discord](https://discord.gg/TJc3CxR4jK)**
 
 <img src="https://i.imgur.com/1rBhYTm.png" width="400" alt="DonutLeaderboard Category Menu" />
 
@@ -22,8 +20,6 @@
 | Async Cached Rankings             | Rankings refresh on a background executor so the main and region threads stay free                                       |
 | Paper, Purpur, Spigot & Folia     | One jar for 1.20.1 through 26.3, with Folia region and global scheduler support                                          |
 | Tiny Jar                          | Around 100 KB; database drivers are downloaded by the server at startup instead of being bundled                     |
-
-<a href="https://builtbybit.com/creators/nightbeamstudio.617578/" rel="nofollow"><img src="https://i.imgur.com/IeI5PsC.png" width="350" alt="Upgrade to Premium" /></a>
 
 # Category Menu
 
@@ -203,7 +199,9 @@ DonutLeaderboard is licensed under the Apache License 2.0.
 
 You are free to use, modify, and redistribute DonutLeaderboard in accordance with the terms of the Apache License 2.0.
 
-<a href="https://nightbeam.dev/community" rel="nofollow"><img src="https://i.imgur.com/xrZhnWD.png" alt="Join the Nightbeam Community" /></a>
+---
+
+> **Running a server?** NightBeam's premium plugins are on [BuiltByBit](https://nightbeam.dev/store): NightWatch Pro anti-cheat, Elo ranked leaderboards and more.
 
 ---
 
