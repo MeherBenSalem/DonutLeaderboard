@@ -1,1 +1,1 @@
-A standalone leaderboard plugin for Spigot, Paper, Purpur and Folia, Minecraft 1.20.1 to 26.3: balance, kills, playtime, blocks mined and more, with daily, weekly, monthly and all-time boards in a menu.
+A standalone leaderboard plugin for Spigot, Paper, Purpur and Folia 1.20.1–26.3, with daily, weekly, monthly and all-time boards for balance, kills, playtime and more.
