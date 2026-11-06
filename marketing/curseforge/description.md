@@ -1,6 +1,6 @@
 ![About](https://raw.githubusercontent.com/Fuzss/modresources/main/pages/commons/headers/about.png)
 
-**[Discord](https://discord.gg/TJc3CxR4jK)**
+**[Docs](https://nightbeam.dev/docs/donut-leaderboard) · [Discord](https://discord.gg/TJc3CxR4jK)**
 
 <img src="https://i.imgur.com/1rBhYTm.png" width="400" alt="DonutLeaderboard Category Menu" />
 
