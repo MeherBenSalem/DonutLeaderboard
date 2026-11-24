@@ -24,6 +24,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class DonutLeaderboardPlugin extends JavaPlugin {
 
+    /** bStats plugin ID, also declared as {@code bstats-id} in plugin.yml (checked in CI). */
+    static final int BSTATS_ID = 24242;
+
     private SchedulerAdapter scheduler;
     private MessageUtil messages;
     private DatabaseManager databaseManager;
@@ -87,8 +90,8 @@ public class DonutLeaderboardPlugin extends JavaPlugin {
             new DonutLeaderboardExpansion(this).register();
         }
 
-        if (getConfig().getBoolean("bstats.enabled", false)) {
-            new Metrics(this, 24242);
+        if (BSTATS_ID > 0 && getConfig().getBoolean("bstats.enabled", false)) {
+            new Metrics(this, BSTATS_ID);
         }
 
         leaderboardService.refreshAll(true);

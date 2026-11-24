@@ -4,6 +4,10 @@
 
 Production-quality Donut-style leaderboards for **Nightbeam Studio (NAIZO)** — paginated chest GUIs, async cached rankings, Vault + vanilla stats + PlaceholderAPI categories, and Folia-safe scheduling.
 
+Supported versions: Paper and Folia 1.20 to 26.3, Java 17+ (one jar).
+
+Metrics: bStats plugin ID 24242 (opt-in: `bstats.enabled`, default false).
+
 ## Build
 
 ```bash
@@ -76,6 +80,11 @@ See `src/main/resources/config.yml` and `messages.yml` for defaults.
 ./gradlew integrationTest # MariaDB4j embedded MySQL (+ Testcontainers when Docker available)
 ./gradlew smokeServerBoot # real Paper/Purpur/Folia boots (see docs/SMOKE_RESULTS.md)
 ```
+
+CI (`.github/workflows/ci.yml`) runs on every push to `main`: `./gradlew build` (unit and MockBukkit tests),
+`python3 scripts/check_plugin_yml.py` on the jar (`api-version: '1.20'`, `folia-supported: true`, the bStats ID,
+Java 17 bytecode), `./gradlew integrationTest`, and a smoke boot on Paper 1.20.1, Paper 26.3 and the newest Folia
+(`python3 scripts/smoke_boot.py`).
 
 ## Smoke / version matrix
 
