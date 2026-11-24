@@ -157,4 +157,4 @@ Apache License 2.0 — see [LICENSE](LICENSE).
   </a>
 </p>
 
-Discord: https://discord.gg/TJc3CxR4jK · GitHub: https://github.com/MeherBenSalem · Modrinth: https://modrinth.com/organization/nightbeam
+Discord: https://discord.gg/TJc3CxR4jK · GitHub: https://github.com/MeherBenSalem
